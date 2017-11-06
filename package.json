@@ -1,0 +1,34 @@
+{
+  "name": "yarymov-project2",
+  "version": "0.1.0",
+  "description": "Gendiff project from Hexlet",
+  "main": "",
+  "scripts": {
+    "babel-node": "babel-node",
+    "build": "NODE_ENV=production babel src --out-dir dist --source-maps inline",
+    "prepublish": "npm run build"
+  },
+  "bin": {
+    "gendiffer": "dist/bin/gendiff.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yarymvsarge/project-lvl2-s133.git"
+  },
+  "keywords": [
+    "difference",
+    "hexlet"
+  ],
+  "author": "Oleg Yarymov",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/yarymvsarge/project-lvl2-s133/issues"
+  },
+  "homepage": "https://github.com/yarymvsarge/project-lvl2-s133#readme",
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-stage-0": "^6.24.1"
+  }
+}
