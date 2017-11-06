@@ -26,7 +26,7 @@ const addStatesToConfig = (firstConfig, secondConfig, mergedConfig) =>
 const compare = (firstConfig, secondConfig) => {
   const mergedConfig = { ...firstConfig, ...secondConfig };
   const mergedConfigWithStates = addStatesToConfig(firstConfig, secondConfig, mergedConfig);
-  const string = Object.keys(mergedConfigWithStates).reduce((str, key) => {
+  const compareResult = Object.keys(mergedConfigWithStates).reduce((str, key) => {
     switch (mergedConfigWithStates[key].state) {
       case State.MODIFIED:
         return `${str}+ ${key}: ${secondConfig[key]}\n- ${key}: ${firstConfig[key]}\n`;
@@ -34,7 +34,7 @@ const compare = (firstConfig, secondConfig) => {
         return `${str}${mergedConfigWithStates[key].state} ${key}: ${mergedConfigWithStates[key].value}\n`;
     }
   }, '');
-  return `{\n${string}}`;
+  return `{\n${compareResult}}`;
 };
 
 export default (pathToFile1, pathToFile2) => {
