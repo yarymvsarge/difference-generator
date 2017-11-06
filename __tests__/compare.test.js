@@ -1,7 +1,7 @@
 import genDiff from '../src';
 
-const pathToJSONBefore = 'data/JSON/before.json';
-const pathToJSONAfter = 'data/JSON/after.json';
+const pathToJSONBefore = './data/JSON/before.json';
+const pathToJSONAfter = './data/JSON/after.json';
 const compareJSONResult = `{
   host: hexlet.io
 + timeout: 20
@@ -50,6 +50,18 @@ const compareMyYAMLResult = `{
 + files: 150
 }`;
 
+const pathToINIBefore = './data/INI/before.ini';
+const pathToINIAfter = './data/INI/after.ini';
+const compareINIResult = `{
++ user: uses
+- user: dbuser
+  password: dbpassword
+  database: use_this_database
+  datadir: /var/lib/data
++ array: first value
+- array: first value,second value,third value
+}`;
+
 describe('test JSON files comparing', () => {
   it('must pass hexlet example', () => {
     expect(genDiff(pathToJSONBefore, pathToJSONAfter)).toEqual(compareJSONResult);
@@ -65,5 +77,11 @@ describe('test YAML files comparing', () => {
   });
   it('must pass my example', () => {
     expect(genDiff(pathToMyYAMLBefore, pathToMyYAMLAfter)).toEqual(compareMyYAMLResult);
+  });
+});
+
+describe('test INI files comparing', () => {
+  it('must pass hexlet example', () => {
+    expect(genDiff(pathToINIBefore, pathToINIAfter)).toEqual(compareINIResult);
   });
 });
