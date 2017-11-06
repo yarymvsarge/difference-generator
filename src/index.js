@@ -10,19 +10,22 @@ const State = {
 
 const parseJSONFromFile = filename => JSON.parse(readFileSync(filename));
 
-const compare = (firstConfig, secondConfig) => {
-  const mergedConfig = { ...firstConfig, ...secondConfig };
-  const mergedConfigWithStates = Object.keys(mergedConfig).reduce((result, key) => {
+const addStatesToConfig = (firstConfig, secondConfig, mergedConfig) =>
+  Object.keys(mergedConfig).reduce((result, key) => {
     if (_.has(firstConfig, key) && _.has(secondConfig, key)) {
       if (firstConfig[key] === secondConfig[key]) {
-        return { ...result, ...{ [key]: { state: State.NOT_CHANGED, value: mergedConfig[key] } } };
+        return { ...result, ...{ [key]: { state: State.NOT_CHANGED, value: firstConfig[key] } } };
       }
-      return { ...result, ...{ [key]: { state: State.MODIFIED, value: mergedConfig[key] } } };
+      return { ...result, ...{ [key]: { state: State.MODIFIED, value: firstConfig[key] } } };
     } else if (_.has(firstConfig, key) && !_.has(secondConfig, key)) {
       return { ...result, ...{ [key]: { state: State.DELETED, value: firstConfig[key] } } };
     }
     return { ...result, ...{ [key]: { state: State.INSERTED, value: secondConfig[key] } } };
   }, {});
+
+const compare = (firstConfig, secondConfig) => {
+  const mergedConfig = { ...firstConfig, ...secondConfig };
+  const mergedConfigWithStates = addStatesToConfig(firstConfig, secondConfig, mergedConfig);
   const string = Object.keys(mergedConfigWithStates).reduce((str, key) => {
     switch (mergedConfigWithStates[key].state) {
       case State.MODIFIED:
