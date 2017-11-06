@@ -1,0 +1,6 @@
+work: true
+timeout: 20
+verbose: true
+host: hexlet.io
+path: ~/user/test
+files: 150

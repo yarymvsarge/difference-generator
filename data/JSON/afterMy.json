@@ -4,5 +4,6 @@
   "verbose": true,
   "host": "hexlet.io",
   "path": "~/user/test",
+  "fruits": ["apple", "orange", "peach"],
   "files": 150
 }

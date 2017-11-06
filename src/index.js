@@ -1,5 +1,6 @@
 import { readFileSync } from 'fs';
 import _ from 'lodash';
+import { safeLoad } from 'js-yaml';
 
 const State = {
   MODIFIED: 'modified',
@@ -8,7 +9,10 @@ const State = {
   NOT_CHANGED: ' ',
 };
 
-const parseJSONFromFile = filename => JSON.parse(readFileSync(filename));
+const ParseFormatFromFile = {
+  json: filename => JSON.parse(readFileSync(filename)),
+  yml: filename => safeLoad(readFileSync(filename)),
+};
 
 const addStatesToConfig = (firstConfig, secondConfig, mergedConfig) =>
   Object.keys(mergedConfig).reduce((result, key) => {
@@ -38,7 +42,8 @@ const compare = (firstConfig, secondConfig) => {
 };
 
 export default (pathToFile1, pathToFile2) => {
-  const firstConfig = parseJSONFromFile(pathToFile1);
-  const secondConfig = parseJSONFromFile(pathToFile2);
+  const format = _.last(pathToFile1.split('.'));
+  const firstConfig = ParseFormatFromFile[format](pathToFile1);
+  const secondConfig = ParseFormatFromFile[format](pathToFile2);
   return compare(firstConfig, secondConfig);
 };
