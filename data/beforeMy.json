@@ -1,0 +1,6 @@
+{
+  "host": "localhost",
+  "timeout": 20,
+  "proxy": "223.234.53.243",
+  "work": false
+}
