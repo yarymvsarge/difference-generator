@@ -1,7 +1,7 @@
 import genDiff from '../src';
 
-const pathToJSONBefore = './data/JSON/before.json';
-const pathToJSONAfter = './data/JSON/after.json';
+const pathToJSONBefore = '__tests__/fixtures/JSON/before.json';
+const pathToJSONAfter = '__tests__/fixtures/JSON/after.json';
 const compareJSONResult = `{
   host: hexlet.io
 + timeout: 20
@@ -10,8 +10,8 @@ const compareJSONResult = `{
 + verbose: true
 }`;
 
-const pathToMyJSONBefore = 'data/JSON/beforeMy.json';
-const pathToMyJSONAfter = 'data/JSON/afterMy.json';
+const pathToMyJSONBefore = '__tests__/fixtures/JSON/beforeMy.json';
+const pathToMyJSONAfter = '__tests__/fixtures/JSON/afterMy.json';
 const compareMyJSONResult = `{
 + host: hexlet.io
 - host: localhost
@@ -26,8 +26,8 @@ const compareMyJSONResult = `{
 + files: 150
 }`;
 
-const pathToYAMLBefore = 'data/YAML/before.yml';
-const pathToYAMLAfter = 'data/YAML/after.yml';
+const pathToYAMLBefore = '__tests__/fixtures/YAML/before.yml';
+const pathToYAMLAfter = '__tests__/fixtures/YAML/after.yml';
 const compareYAMLResult = `{
   host: hexlet.io
 + timeout: 20
@@ -36,8 +36,8 @@ const compareYAMLResult = `{
 + verbose: true
 }`;
 
-const pathToMyYAMLBefore = 'data/YAML/beforeMy.yml';
-const pathToMyYAMLAfter = 'data/YAML/afterMy.yml';
+const pathToMyYAMLBefore = '__tests__/fixtures/YAML/beforeMy.yml';
+const pathToMyYAMLAfter = '__tests__/fixtures/YAML/afterMy.yml';
 const compareMyYAMLResult = `{
 + host: hexlet.io
 - host: localhost
@@ -50,8 +50,8 @@ const compareMyYAMLResult = `{
 + files: 150
 }`;
 
-const pathToINIBefore = './data/INI/before.ini';
-const pathToINIAfter = './data/INI/after.ini';
+const pathToINIBefore = '__tests__/fixtures/INI/before.ini';
+const pathToINIAfter = '__tests__/fixtures/INI/after.ini';
 const compareINIResult = `{
 + user: uses
 - user: dbuser
@@ -81,7 +81,7 @@ describe('test YAML files comparing', () => {
 });
 
 describe('test INI files comparing', () => {
-  it('must pass hexlet example', () => {
+  it('must pass my example', () => {
     expect(genDiff(pathToINIBefore, pathToINIAfter)).toEqual(compareINIResult);
   });
 });
