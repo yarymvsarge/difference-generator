@@ -12,7 +12,7 @@ const parserFromFormat = {
 
 const getDiff = (firstConfig, secondConfig) => {
   const configsKeys = _.union(Object.keys(firstConfig), Object.keys(secondConfig));
-  const objects = configsKeys.map((key) => {
+  const difference = configsKeys.map((key) => {
     if (_.has(firstConfig, key) && _.has(secondConfig, key)) {
       return (firstConfig[key] === secondConfig[key])
         ? `  ${key}: ${firstConfig[key]}`
@@ -20,7 +20,7 @@ const getDiff = (firstConfig, secondConfig) => {
     }
     return (_.has(firstConfig, key)) ? `- ${key}: ${firstConfig[key]}` : `+ ${key}: ${secondConfig[key]}`;
   }).join('\n');
-  return `{\n${objects}\n}`;
+  return `{\n${difference}\n}`;
 };
 
 export default (pathToFile1, pathToFile2) => {
