@@ -1,8 +1,14 @@
 {
   "name": "yarymov-project2",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Gendiff project from Hexlet",
-  "main": "",
+  "main": "dist/index.js",
+  "engines": {
+    "node": "8"
+  },
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "babel-node": "babel-node",
     "build": "NODE_ENV=production babel src --out-dir dist --source-maps inline",
