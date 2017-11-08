@@ -1,26 +1,14 @@
 import { readFileSync } from 'fs';
 import { extname } from 'path';
-import _ from 'lodash';
 import { safeLoad } from 'js-yaml';
 import ini from 'ini';
+import makeAst from './modules/astParser';
+import genDiff from './modules/differenceGenerator';
 
 const parserFromFormat = {
   json: JSON.parse,
   yml: safeLoad,
   ini: ini.parse,
-};
-
-const getDiff = (firstConfig, secondConfig) => {
-  const configsKeys = _.union(Object.keys(firstConfig), Object.keys(secondConfig));
-  const difference = configsKeys.map((key) => {
-    if (_.has(firstConfig, key) && _.has(secondConfig, key)) {
-      return (firstConfig[key] === secondConfig[key])
-        ? `  ${key}: ${firstConfig[key]}`
-        : `+ ${key}: ${secondConfig[key]}\n- ${key}: ${firstConfig[key]}`;
-    }
-    return (_.has(firstConfig, key)) ? `- ${key}: ${firstConfig[key]}` : `+ ${key}: ${secondConfig[key]}`;
-  }).join('\n');
-  return `{\n${difference}\n}`;
 };
 
 export default (pathToFile1, pathToFile2) => {
@@ -31,5 +19,7 @@ export default (pathToFile1, pathToFile2) => {
   }
   const firstConfig = parse(readFileSync(pathToFile1, 'utf-8'));
   const secondConfig = parse(readFileSync(pathToFile2, 'utf-8'));
-  return getDiff(firstConfig, secondConfig);
+  const firstAst = makeAst(firstConfig);
+  const secondAst = makeAst(secondConfig);
+  return `{\n${genDiff(firstAst.children, secondAst.children)}\n}`;
 };

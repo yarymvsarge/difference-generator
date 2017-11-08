@@ -1,0 +1,29 @@
+{
+  "common": {
+    "setting1": "Value 1",
+    "setting3": true,
+    "setting4": "blah blah",
+    "setting5": {
+      "key5": "value5"
+    },
+    "setting6": {
+      "key": "valu1e",
+      "key2": {
+        "name": "Oledg",
+        "value": {
+          "email": "none",
+          "fruits": ["apple", "peach", "orange"]
+        }
+      }
+    }
+  },
+
+  "group1": {
+    "foo": "bar",
+    "baz": "bars"
+  },
+
+  "group3": {
+    "fee": "100500"
+  }
+}
