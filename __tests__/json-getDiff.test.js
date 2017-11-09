@@ -1,9 +1,6 @@
 import genDiff from '../src';
 
-describe('non-recursive comparing', () => {
-  const pathToJSONBefore = '__tests__/fixtures/JSON/before.json';
-  const pathToJSONAfter = '__tests__/fixtures/JSON/after.json';
-  const compareJSONResult = `{
+const compareJSONResult = `{
     host: hexlet.io
   + timeout: 20
   - timeout: 50
@@ -11,9 +8,7 @@ describe('non-recursive comparing', () => {
   + verbose: true
 }`;
 
-  const pathToMyJSONBefore = '__tests__/fixtures/JSON/beforeMy.json';
-  const pathToMyJSONAfter = '__tests__/fixtures/JSON/afterMy.json';
-  const compareMyJSONResult = `{
+const compareMyJSONResult = `{
   + host: hexlet.io
   - host: localhost
     timeout: 20
@@ -27,9 +22,7 @@ describe('non-recursive comparing', () => {
   + files: 150
 }`;
 
-  const pathToYAMLBefore = '__tests__/fixtures/YAML/before.yml';
-  const pathToYAMLAfter = '__tests__/fixtures/YAML/after.yml';
-  const compareYAMLResult = `{
+const compareYAMLResult = `{
     host: hexlet.io
   + timeout: 20
   - timeout: 50
@@ -37,9 +30,7 @@ describe('non-recursive comparing', () => {
   + verbose: true
 }`;
 
-  const pathToMyYAMLBefore = '__tests__/fixtures/YAML/beforeMy.yml';
-  const pathToMyYAMLAfter = '__tests__/fixtures/YAML/afterMy.yml';
-  const compareMyYAMLResult = `{
+const compareMyYAMLResult = `{
   + host: hexlet.io
   - host: localhost
     timeout: 20
@@ -51,9 +42,7 @@ describe('non-recursive comparing', () => {
   + files: 150
 }`;
 
-  const pathToINIBefore = '__tests__/fixtures/INI/before.ini';
-  const pathToINIAfter = '__tests__/fixtures/INI/after.ini';
-  const compareINIResult = `{
+const compareINIResult = `{
   + user: uses
   - user: dbuser
     password: dbpassword
@@ -63,33 +52,7 @@ describe('non-recursive comparing', () => {
   - array: first value,second value,third value
 }`;
 
-  describe('non-recursive JSON files comparing', () => {
-    it('must pass hexlet example', () => {
-      expect(genDiff(pathToJSONBefore, pathToJSONAfter)).toEqual(compareJSONResult);
-    });
-    it('must pass my example', () => {
-      expect(genDiff(pathToMyJSONBefore, pathToMyJSONAfter)).toEqual(compareMyJSONResult);
-    });
-  });
-
-  describe('test YAML files comparing', () => {
-    it('must pass hexlet example', () => {
-      expect(genDiff(pathToYAMLBefore, pathToYAMLAfter)).toEqual(compareYAMLResult);
-    });
-    it('must pass my example', () => {
-      expect(genDiff(pathToMyYAMLBefore, pathToMyYAMLAfter)).toEqual(compareMyYAMLResult);
-    });
-  });
-
-  describe('test INI files comparing', () => {
-    it('must pass my example', () => {
-      expect(genDiff(pathToINIBefore, pathToINIAfter)).toEqual(compareINIResult);
-    });
-  });
-});
-
-describe('recursive comparing', () => {
-  const compareHexletResult = `{
+const compareHexletResult = `{
     common: {
         setting1: Value 1
       - setting2: 200
@@ -114,7 +77,7 @@ describe('recursive comparing', () => {
         fee: 100500
     }
 }`;
-  const compareMyResult = `{
+const compareMyResult = `{
     common: {
         setting1: Value 1
       - setting2: 200
@@ -151,32 +114,58 @@ describe('recursive comparing', () => {
     }
 }`;
 
+describe('json variant comparing', () => {
+  describe('non-recursive JSON files comparing', () => {
+    it('must pass hexlet JSON example', () => {
+      const pathToJSONBefore = '__tests__/fixtures/JSON/before.json';
+      const pathToJSONAfter = '__tests__/fixtures/JSON/after.json';
+      expect(genDiff(pathToJSONBefore, pathToJSONAfter)).toEqual(compareJSONResult);
+    });
+    it('must pass my JSON example', () => {
+      const pathToMyJSONBefore = '__tests__/fixtures/JSON/beforeMy.json';
+      const pathToMyJSONAfter = '__tests__/fixtures/JSON/afterMy.json';
+      expect(genDiff(pathToMyJSONBefore, pathToMyJSONAfter)).toEqual(compareMyJSONResult);
+    });
+    it('must pass YAML hexlet example', () => {
+      const pathToYAMLBefore = '__tests__/fixtures/YAML/before.yml';
+      const pathToYAMLAfter = '__tests__/fixtures/YAML/after.yml';
+      expect(genDiff(pathToYAMLBefore, pathToYAMLAfter)).toEqual(compareYAMLResult);
+    });
+    it('must pass my example', () => {
+      const pathToMyYAMLBefore = '__tests__/fixtures/YAML/beforeMy.yml';
+      const pathToMyYAMLAfter = '__tests__/fixtures/YAML/afterMy.yml';
+      expect(genDiff(pathToMyYAMLBefore, pathToMyYAMLAfter)).toEqual(compareMyYAMLResult);
+    });
+    it('must pass my INI example', () => {
+      const pathToINIBefore = '__tests__/fixtures/INI/before.ini';
+      const pathToINIAfter = '__tests__/fixtures/INI/after.ini';
+      expect(genDiff(pathToINIBefore, pathToINIAfter)).toEqual(compareINIResult);
+    });
+  });
+});
 
+describe('recursive comparing', () => {
   describe('recursive JSON files comparing', () => {
-    it('must pass hexlet example', () => {
+    it('must pass hexlet JSON example', () => {
       const pathToJSONBefore = '__tests__/fixtures/JSON/recursiveBefore.json';
       const pathToJSONAfter = '__tests__/fixtures/JSON/recursiveAfter.json';
       expect(genDiff(pathToJSONBefore, pathToJSONAfter)).toEqual(compareHexletResult);
     });
-    it('must pass my example', () => {
+    it('must pass my JSON example', () => {
       const pathToMyJSONBefore = '__tests__/fixtures/JSON/recursiveBeforeMy.json';
       const pathToMyJSONAfter = '__tests__/fixtures/JSON/recursiveAfterMy.json';
       expect(genDiff(pathToMyJSONBefore, pathToMyJSONAfter)).toEqual(compareMyResult);
     });
-  });
-  describe('recursive YAML files comparing', () => {
-    it('must pass hexlet example', () => {
+    it('must pass YAML hexlet example', () => {
       const pathToYAMLBefore = '__tests__/fixtures/YAML/recursiveBefore.yml';
       const pathToYAMLAfter = '__tests__/fixtures/YAML/recursiveAfter.yml';
       expect(genDiff(pathToYAMLBefore, pathToYAMLAfter)).toEqual(compareHexletResult);
     });
-    it('must pass my example', () => {
+    it('must pass my YAML example', () => {
       const pathToMyYAMLBefore = '__tests__/fixtures/YAML/recursiveBeforeMy.yml';
       const pathToMyYAMLAfter = '__tests__/fixtures/YAML/recursiveAfterMy.yml';
       expect(genDiff(pathToMyYAMLBefore, pathToMyYAMLAfter)).toEqual(compareMyResult);
     });
-  });
-  describe('recursive INI files comparing', () => {
     it('must pass hexlet example', () => {
       const pathToINIBefore = '__tests__/fixtures/INI/recursiveBefore.ini';
       const pathToINIAfter = '__tests__/fixtures/INI/recursiveAfter.ini';
