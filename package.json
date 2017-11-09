@@ -1,6 +1,6 @@
 {
   "name": "yarymov-project2",
-  "version": "1.2.1",
+  "version": "1.3.0",
   "description": "Gendiff project from Hexlet",
   "main": "dist/index.js",
   "engines": {

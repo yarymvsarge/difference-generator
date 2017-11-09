@@ -57,23 +57,19 @@ const plainOutput = (ast) => {
   return iter('', ast);
 };
 
-/* const jsonOutput = (ast) => {
-  const iter = (property, acc) => acc.map((elem) => {
+const jsonOutput = (ast) => {
+  const iter = acc => acc.reduce((cur, elem) => {
     const { name, type, value } = elem;
-    const strValue = isComplexObject(type, value) ?
-      JSON.stringify(value) : value;
-    if (type === 'changed') {
-      return { [name]: { oldValue: strValue.new, newValue: value.old } };
-    }
-    return { [name]: strValue };
-  }).join('');
-  return JSON.stringify(iter('', ast), null, 2);
-}; */
+    return (type === 'nested') ? { ...cur, [name]: { type, value: iter(value) } }
+      : { ...cur, [name]: { type, value } };
+  }, {});
+  return JSON.stringify(iter(ast), null, 2);
+};
 
 const renderers = {
   plain: plainOutput,
   nested: nestedOutput,
-  // json: jsonOutput,
+  json: jsonOutput,
 };
 
 export default (type) => {

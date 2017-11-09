@@ -1,7 +1,9 @@
 install: 
 	npm install
 start:
+	npm run babel-node -- src/bin/gendiff.js --format json __tests__/fixtures/JSON/before.json __tests__/fixtures/JSON/after.json
 	npm run babel-node -- src/bin/gendiff.js --format plain __tests__/fixtures/JSON/before.json __tests__/fixtures/JSON/after.json
+	npm run babel-node -- src/bin/gendiff.js --format nested __tests__/fixtures/JSON/before.json __tests__/fixtures/JSON/after.json
 publish:
 	npm publish
 build:
