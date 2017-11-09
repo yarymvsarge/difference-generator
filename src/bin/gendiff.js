@@ -9,7 +9,7 @@ program
   .action((firstConfig, secondConfig) => {
     if (program.format === 'plain') {
       console.log(genDiff(firstConfig, secondConfig, 'plain'));
-    } else console.log(genDiff(firstConfig, secondConfig, 'json'));
+    } else console.log(genDiff(firstConfig, secondConfig, 'nested'));
   })
   .description('Compares two configuration files and shows a difference.')
   .parse(process.argv);

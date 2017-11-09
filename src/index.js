@@ -59,7 +59,7 @@ const isComplexObject = (type, value) =>
   (type !== 'nested' && type !== 'changed'
   && value instanceof Object && !(value instanceof Array));
 
-const jsonOutput = (ast) => {
+const nestedOutput = (ast) => {
   const defaultSpaces = 2;
   const spacesIncrement = 4;
   const iter = (spacesCount, acc) => {
@@ -111,10 +111,10 @@ const plainOutput = (ast) => {
 
 const renderer = {
   plain: plainOutput,
-  json: jsonOutput,
+  nested: nestedOutput,
 };
 
-export default (pathToFile1, pathToFile2, output = 'json') => {
+export default (pathToFile1, pathToFile2, output = 'nested') => {
   const format = extname(pathToFile1).slice(1);
   const parse = parserFromFormat[format];
   if (!parse) {
