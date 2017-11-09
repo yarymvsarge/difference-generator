@@ -13,7 +13,8 @@ const parserFromFormat = {
 const states = [
   {
     state: 'object',
-    check: (first, second, key) => first[key] instanceof Object || second[key] instanceof Object,
+    check: (first, second, key) => (first[key] instanceof Object && second[key] instanceof Object)
+      && !(first[key] instanceof Array && second[key] instanceof Array),
     process: (first, second, fun) => fun(first, second),
   },
   {
@@ -49,24 +50,39 @@ const getAst = (firstConfig = {}, secondConfig = {}) => {
   });
 };
 
-/* const getDiff = (ast) => {
-  return ast.map((node) => {
-    switch (node.state) {
-      case 'not changed':
-        return `  ${node.name}: ${node.value}`;
-      case 'deleted':
-        return `- ${node.name}: ${node.value}`;
-      case 'inserted':
-        return `+ ${node.name}: ${node.value}`;
-      case 'changed':
-        return `+ ${node.name}: ${node.value.new}\n- ${node.name}: ${node.value.new}`;
-      case 'object':
-        return `${node.name}: ${getDiff(node.value)}`;
-      default:
-        break;
-    }
-  }).join('\n');
-}; */
+const fullObjectToString = (obj, spaces) => {
+  const str = Object.keys(obj).map(key => `${' '.repeat(spaces)}  ${key}: ${obj[key]}`).join('\n');
+  return `{\n${str}\n${' '.repeat(spaces - 2)}}`;
+};
+
+const getDiff = (ast) => {
+  const defaultSpaces = 2;
+  const spacesIncrement = 4;
+  const iter = (spacesCount, acc) => {
+    const spaces = ' '.repeat(spacesCount);
+    return acc.map((elem) => {
+      const { name, state, value } = elem;
+      const strValue = (state !== 'object' && state !== 'changed'
+        && value instanceof Object && !(value instanceof Array)) ?
+        fullObjectToString(value, spacesCount + spacesIncrement) : value;
+      switch (state) {
+        case 'not changed':
+          return `${spaces}  ${name}: ${strValue}`;
+        case 'deleted':
+          return `${spaces}- ${name}: ${strValue}`;
+        case 'inserted':
+          return `${spaces}+ ${name}: ${strValue}`;
+        case 'changed':
+          return `${spaces}+ ${name}: ${strValue.new}\n${spaces}- ${name}: ${strValue.old}`;
+        case 'object':
+          return `${spaces}  ${name}: {\n${iter(spacesCount + spacesIncrement, strValue)}\n${spaces}  }`;
+        default:
+          return '';
+      }
+    }).join('\n');
+  };
+  return iter(defaultSpaces, ast);
+};
 
 export default (pathToFile1, pathToFile2) => {
   const format = extname(pathToFile1).slice(1);
@@ -78,5 +94,5 @@ export default (pathToFile1, pathToFile2) => {
   const secondConfig = parse(readFileSync(pathToFile2, 'utf-8'));
   const ast = getAst(firstConfig, secondConfig);
   const text = getDiff(ast);
-  return text;
+  return `{\n${text}\n}`;
 };
